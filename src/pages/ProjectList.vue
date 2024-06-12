@@ -12,8 +12,10 @@
             <h3>No designs found for the technology: {{ selectedTechnology }} </h3>
         </div>
         <div class="col-12 col-lg-6" v-for="project in filteredProjects" :key="project.id">
-            <CardComponent :item="project" />
+            <CardComponent :item="project" @open-modal="handleOpenModal"/>
+            <!-- <ModalDetails :project="modalProject" ref="modalDetails" /> -->
         </div>
+       
     </div>
     <nav>
         <ul class="pagination">
@@ -39,11 +41,13 @@
 import { store } from '../store';
 import axios from 'axios';
 import CardComponent from '../components/CardComponent.vue';
+import ModalDetails from '../components/ModalDetails.vue';
 
     export default {
         name: 'ProjectList',
         components: {
-            CardComponent
+            CardComponent,
+            ModalDetails
         },
         data() {
             return {
@@ -52,7 +56,8 @@ import CardComponent from '../components/CardComponent.vue';
                 currentPage: 0,
                 totalPage: 0,
                 tech: '',
-                params: null
+                params: null,
+                modalProject: null,
             }
         },
         methods: {
@@ -79,7 +84,10 @@ import CardComponent from '../components/CardComponent.vue';
                     console.error('Si è verificato un errore:', error);
                 });
             },
-
+            handleOpenModal(project) {
+                this.modalProject = project;
+                this.$refs.modalDetails.open();
+            }
         },
         computed: {
             filteredProjects() {

@@ -8,7 +8,7 @@
 <script>
   import HeaderComponent from './components/HeaderComponent.vue';
   import { store } from './store';
-  import Axios from 'axios';
+  import axios from 'axios';
   export default {
     name: 'App',
     components: {
@@ -19,6 +19,17 @@
         store,
       }
     },
+    methods: {
+    getTechnologies() {
+        axios.get(this.store.apiBaseUrl + '/technologies').then((res) => {
+          // console.log(res.data);
+          this.store.technologies = res.data.results;
+        });
+      }
+    },
+    mounted() {
+      this.getTechnologies();
+    }
   }
 </script>
 

@@ -1,22 +1,21 @@
 <template>
     <div class="d-flex justify-content-between align-items-center">
         <h1>All Projects</h1>
-        <!-- <select name="technologies" id="technologies" class="form-select" @change="setParams(1)" v-model="tech">
+        <select name="technologies" id="technologies" class="form-select" @change="setParams(1)" v-model="tech">
             <option value="">All technologies</option>
-            <option :value="technology.id" v-for="technology in store.technologies" :key="technology.id">{{ technology.name }}
-            </option>
-        </select> -->
+            <option :value="technology.id" v-for="technology in store.technologies" :key="technology.id">{{ technology.name }}</option>
+        </select>
     </div>
 
     <div class="row">
-        <!-- <div class="col-12 col-lg-6" v-if="projects.length < 1">
-            <h3>No designs found for the technology: {{ selectedtechnology }} </h3>
-        </div> -->
-        <div class="col-12 col-lg-6" v-for="project in projects" :key="project.id">
+        <div class="col-12 col-lg-6" v-if="projects.length < 1">
+            <h3>No designs found for the technology: {{ selectedTechnology }} </h3>
+        </div>
+        <div class="col-12 col-lg-6" v-for="project in filteredProjects" :key="project.id">
             <CardComponent :item="project" />
         </div>
     </div>
-    <!-- <nav>
+    <nav>
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link" :class="{ 'disabled': currentPage <= 1 }" href="#"
@@ -33,7 +32,7 @@
                     @click.prevent="setParams(currentPage + 1)">Next</a>
             </li>
         </ul>
-    </nav> -->
+    </nav>
 </template>
 
 <script>
@@ -58,7 +57,6 @@ import CardComponent from '../components/CardComponent.vue';
         },
         methods: {
             setParams(numpage) {
-                //console.log(this.category);
                 this.currentPage = numpage;
                 this.params = {
                     page: this.currentPage,
@@ -72,9 +70,8 @@ import CardComponent from '../components/CardComponent.vue';
                 axios.get(this.store.apiBaseUrl + '/projects', { params: this.params }).then((res) => {
                     // console.log(res.data);
                     this.projects = res.data.results.data;
-                    console.log(this.projects);
+                     console.log(this.projects);
                     //se paginazione
-                    //this.posts = res.data.results.data;
                     this.currentPage = res.data.results.current_page;
                     this.totalPage = res.data.results.last_page;
                     this.params = null;
@@ -84,12 +81,18 @@ import CardComponent from '../components/CardComponent.vue';
             },
 
         },
-        // computed: {
-        //     selectedTechnology() {
-        //         const technology = this.store.technologies.find(technology => technology.id == this.cat);
-        //         return technology ? technology.name : '';
-        //     }
-        // },
+        computed: {
+            filteredProjects() {
+                if (!this.tech) {
+                    return this.projects;
+                }
+                return this.projects.filter(project => project.technologies.some(tech => tech.id === this.tech));
+            },
+            selectedTechnology() {
+                const technology = this.store.technologies.find(technology => technology.id == this.tech);
+                return technology ? technology.name : '';
+            }
+        },
         mounted() {
             this.getAllProjects();
         }
@@ -97,5 +100,7 @@ import CardComponent from '../components/CardComponent.vue';
 </script>
 
 <style lang="scss" scoped>
-
+    .form-select {
+    width: auto;
+    }
 </style>

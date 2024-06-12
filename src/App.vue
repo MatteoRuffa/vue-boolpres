@@ -1,11 +1,24 @@
 <template>
-  <h1 class="text-center">Ciao</h1>
-  <i class="fa fa-solid fa-home"></i>
+  <HeaderComponent />
+  <main class="container my-4">
+    <router-view></router-view>
+  </main>
 </template>
 
 <script>
+  import HeaderComponent from './components/HeaderComponent.vue';
+  import { store } from './store';
+  import Axios from 'axios';
   export default {
-    name: 'App'
+    name: 'App',
+    components: {
+      HeaderComponent
+    },
+    data() {
+      return {
+        store,
+      }
+    },
   }
 </script>
 

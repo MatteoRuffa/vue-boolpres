@@ -4,7 +4,7 @@ import AppHome from "./pages/AppHome.vue";
 import ProjectList from "./pages/ProjectList.vue";
 // import ProjectComponent from "./pages/ProjectComponent.vue";
 import NotFound from "./pages/NotFound.vue";
-// import ContactComponent from "./pages/ContactComponent.vue";
+import ContactComponent from "./pages/ContactComponent.vue";
 // import AboutComponent from "./pages/AboutComponent.vue";
 
 const router = createRouter({
@@ -30,11 +30,11 @@ const router = createRouter({
     //   name: "about-us",
     //   component: AboutComponent,
     // },
-    // {
-    //   path: "/contact",
-    //   name: "contact",
-    //   component: ContactComponent,
-    // },
+    {
+      path: "/contact",
+      name: "contact",
+      component: ContactComponent,
+    },
     {
       path: "/:pathMatch(.*)*",
       name: "not-found",

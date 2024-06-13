@@ -46,10 +46,10 @@
                 //     label: 'About',
                 //     routeName: 'about-us'
                 // },
-                // {
-                //     label: 'Contact',
-                //     routeName: 'contact'
-                // },
+                {
+                    label: 'Contact',
+                    routeName: 'contact'
+                },
                 // {
                 //   label: 'Categorie',
                 //   routeName: 'categories'
